@@ -10,4 +10,4 @@ iOS App where users can log in and chat with other members that have signed up.
 
 Luis M Gonzalez
 
-Assets by TheLondonAppBrewery.
+Assets and design by LondonAppBrewery.
