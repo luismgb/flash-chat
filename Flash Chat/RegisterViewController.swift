@@ -27,9 +27,11 @@ class RegisterViewController: UIViewController {
   @IBAction func registerPressed(_ sender: AnyObject) {
     Auth.auth().createUser(withEmail: emailTextfield.text!, password: passwordTextfield.text!) { (user, error) in
       if error != nil {
+        //TODO: Tell user that there was an error creating account using HUD.
         print(error!)
       } else {
         print("Resgistration Successful")
+        self.performSegue(withIdentifier: "goToChat", sender: self)
       }
     }
   }
