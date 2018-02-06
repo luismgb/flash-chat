@@ -9,7 +9,9 @@
 import UIKit
 import Firebase
 
-class ChatViewController: UIViewController {
+class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
+  
   
   // Declare instance variables here
   
@@ -23,8 +25,8 @@ class ChatViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    //TODO: Set yourself as the delegate and datasource here:
-    
+    messageTableView.delegate = self
+    messageTableView.dataSource = self
     
     
     //TODO: Set yourself as the delegate of the text field here:
@@ -34,32 +36,39 @@ class ChatViewController: UIViewController {
     //TODO: Set the tapGesture here:
     
     
+    messageTableView.register(UINib(nibName: "MessageCell", bundle: nil), forCellReuseIdentifier: "customMessageCell")
     
-    //TODO: Register your MessageCell.xib file here:
-    
-    
+    configureTableView()
   }
+  
   
   ///////////////////////////////////////////
   
   //MARK: - TableView DataSource Methods
   
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "customMessageCell", for: indexPath) as! CustomMessageCell
+    //TODO: Delete example messages for testing.
+    let messageArray = ["First Message", "Second Message", "Third Message"]
+    cell.messageBody.text = messageArray[indexPath.row]
+    return cell
+  }
   
-  
-  //TODO: Declare cellForRowAtIndexPath here:
-  
-  
-  
-  //TODO: Declare numberOfRowsInSection here:
-  
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    //TODO: Remove hard coded 3 used for testing.
+    return 3
+  }
   
   
   //TODO: Declare tableViewTapped here:
+
   
   
-  
-  //TODO: Declare configureTableView here:
-  
+  func configureTableView() {
+    messageTableView.rowHeight = UITableViewAutomaticDimension
+    messageTableView.estimatedRowHeight = 120
+  }
   
   
   ///////////////////////////////////////////
