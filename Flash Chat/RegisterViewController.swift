@@ -30,7 +30,7 @@ class RegisterViewController: UIViewController {
         //TODO: Tell user that there was an error creating account using HUD.
         print(error!)
       } else {
-        print("Resgistration Successful")
+        print("REGISTRATION SUCCESSFUL")
         self.performSegue(withIdentifier: "goToChat", sender: self)
       }
     }
