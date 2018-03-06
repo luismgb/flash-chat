@@ -294,6 +294,7 @@
                                     <constraint firstItem="W4K-YF-skl" firstAttribute="leading" secondItem="WpY-IA-acB" secondAttribute="leadingMargin" id="6sP-1U-u4P"/>
                                     <constraint firstItem="W4K-YF-skl" firstAttribute="centerY" secondItem="WpY-IA-acB" secondAttribute="centerY" id="9Af-2E-wmh"/>
                                     <constraint firstItem="W4K-YF-skl" firstAttribute="top" secondItem="WpY-IA-acB" secondAttribute="top" constant="10" id="G2O-Wp-uu6"/>
+                                    <constraint firstAttribute="height" constant="50" id="GBF-Sq-lUd"/>
                                     <constraint firstItem="JiI-fB-I1v" firstAttribute="leading" secondItem="W4K-YF-skl" secondAttribute="trailing" constant="8" symbolic="YES" id="ane-5V-bmL"/>
                                     <constraint firstItem="W4K-YF-skl" firstAttribute="top" secondItem="JiI-fB-I1v" secondAttribute="top" id="qvj-qZ-Bga"/>
                                     <constraint firstItem="JiI-fB-I1v" firstAttribute="trailing" secondItem="WpY-IA-acB" secondAttribute="trailingMargin" id="zmm-Pi-Hsp"/>
@@ -334,6 +335,7 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="heightConstraint" destination="GBF-Sq-lUd" id="xrH-1u-utq"/>
                         <outlet property="messageTableView" destination="7eI-kw-TVm" id="OYq-98-NhQ"/>
                         <outlet property="messageTextfield" destination="W4K-YF-skl" id="rE7-AO-1UD"/>
                         <outlet property="sendButton" destination="JiI-fB-I1v" id="Oxz-hw-PLC"/>
