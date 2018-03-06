@@ -19,7 +19,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   // We've pre-linked the IBOutlets
   @IBOutlet var heightConstraint: NSLayoutConstraint!
   @IBOutlet var sendButton: UIButton!
-  @IBOutlet var messageTextfield: UITextField!
+  @IBOutlet var messageTextField: UITextField!
   @IBOutlet var messageTableView: UITableView!
   
   override func viewDidLoad() {
