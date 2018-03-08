@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ChatViewController.swift
 //  Flash Chat
 //
 //  Created by Luis M Gonzalez on 1/24/18.
@@ -9,14 +9,8 @@
 import UIKit
 import Firebase
 
-class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
-  
-  
-  // Declare instance variables here
-  
-  
-  // We've pre-linked the IBOutlets
   @IBOutlet var heightConstraint: NSLayoutConstraint!
   @IBOutlet var sendButton: UIButton!
   @IBOutlet var messageTextField: UITextField!
@@ -24,20 +18,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    messageTextField.delegate = self
     
     messageTableView.delegate = self
     messageTableView.dataSource = self
-    
-    
-    //TODO: Set yourself as the delegate of the text field here:
-    
-    
-    
-    //TODO: Set the tapGesture here:
-    
-    
+    messageTableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tableViewTapped)))
     messageTableView.register(UINib(nibName: "MessageCell", bundle: nil), forCellReuseIdentifier: "customMessageCell")
-    
     configureTableView()
   }
   
@@ -55,15 +42,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    
     //TODO: Remove hard coded 3 used for testing.
     return 3
   }
   
-  
-  //TODO: Declare tableViewTapped here:
-
-  
+  @objc func tableViewTapped() {
+    messageTextField.endEditing(true)
+  }
   
   func configureTableView() {
     messageTableView.rowHeight = UITableViewAutomaticDimension
@@ -75,17 +60,33 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   
   //MARK:- TextField Delegate Methods
   
+  func textFieldDidBeginEditing(_ textField: UITextField) {
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+  }
   
+  @objc func keyboardWillShow(_ notification: Notification) {
+    if let keyboardRectangle = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+      let keyboardHeight = keyboardRectangle.height
+      UIView.animate(withDuration: 0.5) {
+        if #available(iOS 11.0, *) {
+          self.heightConstraint.constant = keyboardHeight - self.view.safeAreaInsets.bottom + 50
+        } else {
+          self.heightConstraint.constant = keyboardHeight + 50
+        }
+        self.view.layoutIfNeeded()
+      }
+      view.layoutIfNeeded()
+    }
+  }
   
+  func textFieldDidEndEditing(_ textField: UITextField) {
+    UIView.animate(withDuration: 0.25) {
+      self.heightConstraint.constant = 50
+      self.view.layoutIfNeeded()
+    }
+  }
   
-  //TODO: Declare textFieldDidBeginEditing here:
-  
-  
-  
-  
-  //TODO: Declare textFieldDidEndEditing here:
-  
-  
+
   
   ///////////////////////////////////////////
   
