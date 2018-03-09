@@ -23,8 +23,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     messageTextField.delegate = self
     messageTableView.delegate = self
     messageTableView.dataSource = self
-    messageTableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tableViewTapped)))
-    messageTableView.register(UINib(nibName: "MessageCell", bundle: nil), forCellReuseIdentifier: "customMessageCell")
     configureTableView()
     startMonitoringForMessages()
   }
@@ -50,8 +48,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   }
   
   func configureTableView() {
+    messageTableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tableViewTapped)))
+    messageTableView.register(UINib(nibName: "MessageCell", bundle: nil), forCellReuseIdentifier: "customMessageCell")
     messageTableView.rowHeight = UITableViewAutomaticDimension
     messageTableView.estimatedRowHeight = 120
+    messageTableView.separatorStyle = .none
   }
   
   
