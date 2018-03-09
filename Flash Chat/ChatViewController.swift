@@ -20,9 +20,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     messageTextField.delegate = self
-    
     messageTableView.delegate = self
     messageTableView.dataSource = self
     messageTableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tableViewTapped)))
@@ -33,7 +31,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   
   
   ///////////////////////////////////////////
-  
   //MARK: - TableView DataSource Methods
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -59,7 +56,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   
   
   ///////////////////////////////////////////
-  
   //MARK:- TextField Delegate Methods
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -133,7 +129,5 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
       print("Signing out process failed")
     }
   }
-  
-  
-  
+
 }
