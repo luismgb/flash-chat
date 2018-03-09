@@ -2,8 +2,6 @@
 
 # Flash Chat
 
-**CURRENTLY IN DEVELOPMENT**
-
 iOS App where users can log in and chat with other members that have signed up.
 
 ## Authors
