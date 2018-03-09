@@ -10,7 +10,9 @@ import UIKit
 import Firebase
 
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
-
+  
+  var messageArray = [Message]()
+  
   @IBOutlet var heightConstraint: NSLayoutConstraint!
   @IBOutlet var sendButton: UIButton!
   @IBOutlet var messageTextField: UITextField!
@@ -18,7 +20,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   
   override func viewDidLoad() {
     super.viewDidLoad()
-
+    
     messageTextField.delegate = self
     
     messageTableView.delegate = self
@@ -26,6 +28,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     messageTableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tableViewTapped)))
     messageTableView.register(UINib(nibName: "MessageCell", bundle: nil), forCellReuseIdentifier: "customMessageCell")
     configureTableView()
+    startMonitoringForMessages()
   }
   
   
@@ -35,15 +38,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "customMessageCell", for: indexPath) as! CustomMessageCell
-    //TODO: Delete example messages for testing.
-    let messageArray = ["First Message", "Second Message", "Third Message"]
-    cell.messageBody.text = messageArray[indexPath.row]
+    cell.messageBody.text = messageArray[indexPath.row].messageBody
+    cell.senderUsername.text = messageArray[indexPath.row].sender
+    cell.avatarImageView.image = UIImage(named: "egg")
     return cell
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    //TODO: Remove hard coded 3 used for testing.
-    return 3
+    return messageArray.count
   }
   
   @objc func tableViewTapped() {
@@ -86,31 +88,42 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
   }
   
-
   
   ///////////////////////////////////////////
-  
-  
   //MARK: - Send & Recieve from Firebase
   
-  
-  
-  
-  
-  @IBAction func sendPressed(_ sender: AnyObject) {
-    
-    
-    //TODO: Send the message to Firebase and save it in our database
-    
-    
+  func startMonitoringForMessages() {
+    let messageDB = Database.database().reference().child("Messages")
+    messageDB.observe(.childAdded) { (snapshot) in
+      let snapshotValue = snapshot.value as! [String: String]
+      let text = snapshotValue["MessageBody"]!
+      let sender = snapshotValue["Sender"]!
+      let message = Message()
+      message.messageBody = text
+      message.sender = sender
+      self.messageArray.append(message)
+      self.configureTableView()
+      self.messageTableView.reloadData()
+    }
   }
   
-  //TODO: Create the retrieveMessages method here:
-  
-  
-  
-  
-  
+  @IBAction func sendPressed(_ sender: AnyObject) {
+    messageTextField.endEditing(true)
+    messageTextField.isEnabled = false
+    sendButton.isEnabled = false
+    let messagesDB = Database.database().reference().child("Messages")
+    let messageDictionary = ["Sender": Auth.auth().currentUser?.email, "MessageBody": messageTextField.text!]
+    messagesDB.childByAutoId().setValue(messageDictionary) { (error, reference) in
+      if error != nil {
+        print(error!)
+      } else {
+        print("Message saved successfully")
+        self.messageTextField.isEnabled = true
+        self.sendButton.isEnabled = true
+        self.messageTextField.text = ""
+      }
+    }
+  }
   
   @IBAction func logOutPressed(_ sender: AnyObject) {
     do {
