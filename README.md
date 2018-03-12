@@ -2,7 +2,7 @@
 
 # Flash Chat
 
-iOS App where users can log in and chat with other members that have signed up.
+iOS App that uses Firebase where users can log in and chat with other members that have signed up.
 
 ## Authors
 
